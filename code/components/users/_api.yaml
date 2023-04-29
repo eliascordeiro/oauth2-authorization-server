@@ -1,0 +1,84 @@
+tags:
+  - name: auth
+    description: Authentication routes
+  - name: profile
+    description: User profile information
+
+components:
+  schemas:
+    CreateUser:
+      type: object
+      required:
+        - name
+        - login
+        - email
+        - authentication
+        - roles
+                
+      properties:
+        name:
+          type: string
+          example: John Dere
+        email:
+          type: string
+          example: email@email.com
+        login:
+          type: string
+          minLength: 4
+          maxLength: 30
+          example: admin
+        password:
+          type: string
+          example: admin
+        roles:
+          type: array
+          items:
+            type: object      
+            properties:       
+              name:
+                type: string
+                example: ADMIN
+        authentication:
+          type: string
+          example: local or github        
+
+        code:
+          type: string
+          example: insira aqui o codigo extraido oauthDebugger caso authentication === github           
+
+    UsernamePassword:
+      type: object
+      required:
+        - login
+        - password
+                
+      properties:
+        login:
+          type: string
+          minLength: 4
+          maxLength: 30
+          example: admin
+        password:
+          type: string
+          example: admin
+                
+    Id:
+      type: integer
+      format: int32
+      minimum: 1
+      example: 150
+
+  parameters:
+    Id:
+      in: path
+      name: id
+      description: Unique id
+      required: true
+      schema:
+        $ref: '#/components/schemas/Id'
+  
+  securitySchemes:
+    JWT:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
